@@ -385,6 +385,8 @@ function toggleWa(el){el.parentElement.classList.toggle('open');}
 Chart.defaults.color = '#9fb3a3';
 Chart.defaults.font.family = 'Segoe UI, system-ui, Arial';
 Chart.defaults.borderColor = '#25352b';
+Chart.defaults.responsive = true;
+Chart.defaults.maintainAspectRatio = false;  // respetar altura fija de .chart-box, evita desbordes
 const G='#3f8241', M='#97BC62', BL='#4f9bd6', PU='#a882d6', GD='#e0b64a', RD='#d9705a', GY='rgba(116,138,122,.6)';
 
 /* --- RIEGO (datos reales Priva) --- */
@@ -413,9 +415,9 @@ new Chart(calArandano,{type:'bar',data:{labels:semL,datasets:[
 ]},options:{plugins:{legend:{position:'bottom'}},scales:{y:{ticks:{callback:v=>(v/1000)+'t'}}}}});
 
 /* --- PLAGAS --- */
-new Chart(plCost,{data:{labels:['Jul','Ago','Sep'],datasets:[{type:'bar',label:'Costo sanidad',data:[41100,20000,14800],backgroundColor:G,borderRadius:6}]},options:{plugins:{legend:{display:false}},scales:{y:{ticks:{callback:v=>'$'+(v/1000)+'k'}}}}});
+new Chart(plCost,{data:{labels:['Jul','Ago','Sep'],datasets:[{type:'bar',label:'Costo sanidad',data:[41100,20000,14800],backgroundColor:G,borderRadius:6}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{y:{ticks:{callback:v=>'$'+(v/1000)+'k'}}}}});
 
-new Chart(plTipo,{type:'doughnut',data:{labels:['Insecticida','Fungicida','Acaricida','Biológico'],datasets:[{data:[2,2,1,1],backgroundColor:[RD,BL,PU,M],borderColor:'#16211a',borderWidth:3}]},options:{plugins:{legend:{position:'bottom'}},cutout:'60%'}});
+new Chart(plTipo,{type:'doughnut',data:{labels:['Insecticida','Fungicida','Acaricida','Biológico'],datasets:[{data:[2,2,1,1],backgroundColor:[RD,BL,PU,M],borderColor:'#16211a',borderWidth:3}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom'}},cutout:'60%'}});
 </script>
 </body>
 </html>
