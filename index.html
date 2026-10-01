@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Agrosuar — Berries · Panel Auri</title>
+<script src="chart.min.js"></script>
+<style>
+  :root{
+    --bg:#0e1611; --panel:#16211a; --panel2:#1c2a22; --line:#25352b;
+    --green:#2C5F2D; --green2:#3f8241; --moss:#97BC62; --moss2:#6fae5f;
+    --ink:#e8f0e6; --muted:#9fb3a3; --muted2:#748a7a;
+    --blue:#4f9bd6; --purple:#a882d6; --gold:#e0b64a; --red:#d9705a;
+  }
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:"Segoe UI",system-ui,Arial,sans-serif;background:var(--bg);color:var(--ink);line-height:1.5;padding:0 0 60px}
+  .wrap{max-width:1240px;margin:0 auto;padding:0 22px}
+  header.top{background:linear-gradient(135deg,#183021,#0e1611);border-bottom:1px solid var(--line);padding:22px 0;margin-bottom:26px}
+  header.top .wrap{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:12px}
+  .brand{display:flex;align-items:center;gap:14px}
+  .brand img{height:30px}
+  .brand .sep{width:1px;height:30px;background:var(--line)}
+  .brand h1{font-size:19px;font-weight:700}
+  .brand .sub{font-size:12.5px;color:var(--muted)}
+  .demo-badge{background:rgba(79,155,214,.15);color:var(--blue);border:1px solid rgba(79,155,214,.4);font-size:11px;font-weight:700;padding:5px 12px;border-radius:20px;letter-spacing:.5px}
+  h2.sec{font-size:15px;font-weight:700;margin:30px 0 14px;display:flex;align-items:center;gap:9px;color:var(--ink)}
+  h2.sec .dot{width:9px;height:9px;border-radius:50%;background:var(--moss)}
+  h2.sec .tag{font-size:10px;font-weight:700;padding:2px 9px;border-radius:20px;letter-spacing:.5px;margin-left:4px}
+  .tag.real{background:rgba(63,130,65,.2);color:var(--moss2);border:1px solid rgba(63,130,65,.45)}
+  .tag.est{background:rgba(224,182,74,.15);color:var(--gold);border:1px solid rgba(224,182,74,.4)}
+  .kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:14px}
+  .kpi{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:16px 18px}
+  .kpi .k{font-size:11px;color:var(--muted2);text-transform:uppercase;letter-spacing:.6px}
+  .kpi .v{font-size:26px;font-weight:800;margin-top:6px}
+  .kpi .v small{font-size:13px;font-weight:500;color:var(--muted)}
+  .kpi .d{font-size:11.5px;color:var(--muted);margin-top:3px}
+  .kpi.hl{background:linear-gradient(135deg,#1d3a24,#16211a);border-color:#2f5a37}
+  .grid2{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+  .grid3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:12px;padding:18px}
+  .card h3{font-size:12px;color:var(--muted2);text-transform:uppercase;letter-spacing:.6px;margin-bottom:14px}
+  .chart-box{position:relative;height:250px}
+  .chart-box.tall{height:300px}
+  table{width:100%;border-collapse:collapse;font-size:13px}
+  th{text-align:left;color:var(--muted2);text-transform:uppercase;font-size:10.5px;letter-spacing:.5px;padding:9px 10px;border-bottom:1px solid var(--line)}
+  td{padding:9px 10px;border-bottom:1px solid var(--line)}
+  tr:last-child td{border-bottom:none}
+  .pill{font-size:10.5px;font-weight:700;padding:2px 9px;border-radius:20px}
+  .pill.sueldos{background:rgba(63,130,65,.2);color:var(--moss2)}
+  .pill.insumos{background:rgba(224,182,74,.18);color:var(--gold)}
+  .pill.energia{background:rgba(79,155,214,.18);color:var(--blue)}
+  .pill.sanidad{background:rgba(168,130,214,.18);color:var(--purple)}
+  .pos{color:var(--moss2);font-weight:700}
+  .warn{color:var(--gold);font-weight:700}
+  .findcard{background:linear-gradient(135deg,#1a2a33,#16211a);border:1px solid #2a4654;border-radius:12px;padding:18px;margin-top:16px}
+  .findcard h3{color:var(--blue)}
+  .findcard ul{list-style:none;margin-top:6px}
+  .findcard li{padding:7px 0 7px 22px;position:relative;font-size:13px;border-bottom:1px solid var(--line)}
+  .findcard li:last-child{border-bottom:none}
+  .findcard li::before{content:"▸";position:absolute;left:4px;color:var(--moss2)}
+  .findcard li b{color:var(--ink)}
+  .wa{background:var(--panel);border:1px solid var(--line);border-radius:12px;overflow:hidden}
+  .wa .wa-head{background:#1f7a5a;padding:13px 18px;display:flex;align-items:center;gap:12px;cursor:pointer}
+  .wa .wa-head .ic{width:34px;height:34px;border-radius:50%;background:#25d366;display:flex;align-items:center;justify-content:center;font-size:18px}
+  .wa .wa-head .t{font-weight:700;font-size:14px}
+  .wa .wa-head .s{font-size:11.5px;color:#bfe6d5}
+  .wa-body{padding:16px 18px;max-height:340px;overflow-y:auto;background:#0c130f}
+  .wa-day{text-align:center;font-size:11px;color:var(--muted2);margin:10px 0}
+  .msg{max-width:78%;margin-bottom:10px;padding:9px 13px;border-radius:12px;font-size:13px;position:relative}
+  .msg .who{font-size:11px;font-weight:700;margin-bottom:2px}
+  .msg .time{font-size:9.5px;color:var(--muted2);text-align:right;margin-top:3px}
+  .msg.them{background:#1a2620;border:1px solid var(--line)}
+  .msg.them .who{color:var(--moss2)}
+  .msg.me{background:#1e3a2a;margin-left:auto}
+  .msg.me .who{color:#8fd3a8}
+  .msg.auri{background:#15263a;border:1px solid #24405e}
+  .msg.auri .who{color:var(--blue)}
+  .msg.dec{background:#3a2f17;border:1px solid #5a4a24}
+  .msg.dec .who{color:var(--gold)}
+  .note{font-size:11.5px;color:var(--muted2);font-style:italic;margin-top:10px}
+  .footer{margin-top:36px;padding-top:18px;border-top:1px solid var(--line);font-size:11.5px;color:var(--muted2);display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px}
+  @media(max-width:860px){.grid2,.grid3{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="wrap">
+    <div class="brand">
+      <img src="auri-logo-white.png" alt="Auri">
+      <div class="sep"></div>
+      <div>
+        <h1>Agrosuar — Berries</h1>
+        <div class="sub">El Cardonal / Rancho Los Lobos · Tequisquiapan, Querétaro · Moneda: MXN</div>
+      </div>
+    </div>
+    <div class="demo-badge">HÍBRIDO · Priva real + estimado</div>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <!-- KPIs -->
+  <div class="kpis">
+    <div class="kpi hl"><div class="k">Consumo riego 2026</div><div class="v">262 <small>m³ canal 1</small></div><div class="d">dato real Priva (ene–sep)</div></div>
+    <div class="kpi"><div class="k">Horas de bombeo 2026</div><div class="v">1,360 <small>h</small></div><div class="d">ON pump 1 · dato real Priva</div></div>
+    <div class="kpi"><div class="k">CE objetivo</div><div class="v">1.0 <small>mS/cm</small></div><div class="d">receta activa · tanque mezcla</div></div>
+    <div class="kpi"><div class="k">Ventana de riego</div><div class="v">8:00–17:30</div><div class="d">reposo mín. 15 min entre riegos</div></div>
+    <div class="kpi"><div class="k">Sensor duro real</div><div class="v">1 <small>punto</small></div><div class="d">solo tanque de mezcla (CE/pH)</div></div>
+  </div>
+
+  <!-- HALLAZGO / DIAGNOSTICO -->
+  <h2 class="sec"><span class="dot"></span>Diagnóstico Priva — qué mide hoy <span class="tag real">LECTURA REAL</span></h2>
+  <div class="findcard">
+    <h3>Lo que encontramos en el sistema (base para el piloto)</h3>
+    <ul>
+      <li><b>Único dato duro:</b> el <b>tanque de mezcla</b> trae sensor de CE y pH (doble sensor mezcla + salida, como verificación). Es la única medición “dura” en tiempo real.</li>
+      <li><b>No hay sensores en campo:</b> no se mide CE/pH/humedad por válvula ni en sustrato. Por eso los reportes muestran <span class="warn">0 / −100 / guiones</span> en caudal por válvula — <b>no es falla, es falta de instrumento</b>.</li>
+      <li><b>“Cons. WS / Nutronic” = 0 m³</b> desde 2025 (en 2024 sí registró 7,130 m³). El medidor de flujo total de salida dejó de reportar. <b>El dato vivo real son los m³ por canal de dosificación y las horas de bomba.</b></li>
+      <li><b>Hardware de inyección viejo:</b> el venturi del ácido ya no cierra, inyecta constante 0.1 → se compensa dosificando ácido directo al tanque. Oportunidad clara de mejora.</li>
+      <li><b>Operación manual-dependiente:</b> si falta agua/fertilizante o hay desviación, se detiene el riego y requiere que alguien esté presente. Oportunidad de alerta + telemetría remota.</li>
+    </ul>
+    <p class="note">Fuente: recorrido guiado del sistema (ing. de planta) + reportes Water Report Priva 2021–2026. Esto es lo que Auri instrumentaría primero.</p>
+  </div>
+
+  <!-- RIEGO: DATOS REALES PRIVA -->
+  <h2 class="sec"><span class="dot"></span>Riego y dosificación <span class="tag real">DATOS REALES PRIVA</span></h2>
+  <div class="grid2">
+    <div class="card"><h3>Consumo canal 1 por trimestre (m³)</h3><div class="chart-box"><canvas id="rConsQ"></canvas></div></div>
+    <div class="card"><h3>Horas de bomba por año (ON pump 1)</h3><div class="chart-box"><canvas id="rPump"></canvas></div></div>
+  </div>
+  <div class="card" style="margin-top:16px"><h3>Consumo por canal de dosificación — 2026 acumulado (m³)</h3><div class="chart-box"><canvas id="rCanales"></canvas></div>
+    <p class="note">Canales 1–4 = tanques de nutrición (A–D); canal 5 = ácido. Dato real de Water Report Priva 2026 (ene–sep).</p>
+  </div>
+  <div class="card" style="margin-top:16px">
+    <h3>Receta activa (Priva)</h3>
+    <table>
+      <tr><th>Parámetro</th><th>CE (mS/cm)</th><th>pH</th><th>Nota</th></tr>
+      <tr><td>Alarma alto</td><td>3.0</td><td>10.0</td><td>límite superior</td></tr>
+      <tr><td><b>Deseado</b></td><td class="pos">1.0</td><td class="pos">5.0</td><td>objetivo de la receta</td></tr>
+      <tr><td>Esquema nutrientes</td><td>2.0</td><td>6.5</td><td>referencia</td></tr>
+      <tr><td>Alarma bajo</td><td>0.0</td><td>2.0</td><td>límite inferior</td></tr>
+    </table>
+    <p class="note">Dosificación por tanque (l/m³): A 4.0 · B 10.0 · C 10.0 · D 10.0 · Ácido corrección 0.1. Estrategia: riego 8:00–17:30, reposo mín. 15 min.</p>
+  </div>
+
+  <!-- Bitácora WhatsApp -->
+  <h2 class="sec"><span class="dot"></span>Bitácora de campo — WhatsApp <span class="tag est">DEMO</span></h2>
+  <div class="wa">
+    <div class="wa-head">
+      <div class="ic">💬</div>
+      <div><div class="t">Grupo Agrosuar Berries — Operación · Auri</div><div class="s">Registro de interacciones y decisiones · toca para ver</div></div>
+    </div>
+    <div class="wa-body">
+      <div class="wa-day">24 de septiembre</div>
+      <div class="msg them"><div class="who">Encargado (Nave 3)</div>Temperatura llegó a 34°C al mediodía en la nave 3, las plantas se ven estresadas.<div class="time">12:20</div></div>
+      <div class="msg auri"><div class="who">Auri (asistente)</div>Alerta registrada. Recomiendo abrir cortinas laterales y adelantar el riego de la tarde 40 min. Aviso: si pasa de 36°C hay riesgo de aborto floral en fresa.<div class="time">12:22</div></div>
+      <div class="msg me"><div class="who">Grower</div>De acuerdo, abran cortinas y adelanten riego. Monitoreen cada hora.<div class="time">12:25</div></div>
+      <div class="wa-day">25 de septiembre</div>
+      <div class="msg them"><div class="who">Encargado (Nave 1)</div>Primer corte de arándano de la semana: 620 kg.<div class="time">08:05</div></div>
+      <div class="msg auri"><div class="who">Auri (asistente)</div>Registrado: 620 kg arándano (Nave 1). Acumulado semana: 2,180 kg. Vas 8% arriba vs. semana pasada.<div class="time">08:06</div></div>
+      <div class="msg dec"><div class="who">⚠️ Decisión</div>Grower: subir dosis de potasio 10% en fertirriego de fresa esta semana, va entrando a pico de carga.<div class="time">09:40</div></div>
+      <div class="msg auri"><div class="who">Auri (asistente)</div>Anotado: K +10% en fresa (semana pico de carga). Ajusto el programa de nutrición y te aviso el lunes cómo respondió el EC.<div class="time">09:42</div></div>
+    </div>
+  </div>
+  <p class="note">Demo del flujo: en el piloto, Auri vive en el grupo de WhatsApp real del rancho y guarda cada decisión y dato aquí automáticamente.</p>
+
+  <!-- Producción -->
+  <h2 class="sec"><span class="dot"></span>Producción y rendimiento <span class="tag est">ESTIMADO</span></h2>
+  <div class="grid2">
+    <div class="card"><h3>Cosecha semanal (kg) — placeholder</h3><div class="chart-box"><canvas id="harvest"></canvas></div></div>
+    <div class="card"><h3>Rendimiento por nave (kg/planta) — placeholder</h3><div class="chart-box"><canvas id="yieldNave"></canvas></div></div>
+  </div>
+  <p class="note">Estimado ilustrativo. Se reemplaza por producción real cuando el rancho empiece a registrar cortes por nave en el piloto.</p>
+
+  <!-- Clima -->
+  <h2 class="sec"><span class="dot"></span>Clima (estación Priva) <span class="tag est">A CONECTAR</span></h2>
+  <div class="card"><h3>Temperatura y humedad — ejemplo de 7 días</h3><div class="chart-box tall"><canvas id="climate"></canvas></div>
+    <p class="note">La estación de clima de Priva (temp, viento, radiación, salida/puesta de sol, límites de lluvia/tormenta/helada) ya existe y exporta reportes. En el piloto Auri la conecta para anticipar eventos y disparar alertas.</p>
+  </div>
+
+  <!-- Rentabilidad -->
+  <h2 class="sec"><span class="dot"></span>Rentabilidad <span class="tag est">ESTIMADO</span></h2>
+  <div class="grid3">
+    <div class="kpi"><div class="k">Ingreso proyectado</div><div class="v">$3.82 <small>M</small></div></div>
+    <div class="kpi"><div class="k">Costo total proyectado</div><div class="v">$2.14 <small>M</small></div></div>
+    <div class="kpi hl"><div class="k">Margen</div><div class="v">44%</div></div>
+  </div>
+  <div class="card" style="margin-top:16px"><h3>Utilidad según precio de venta (fresa $/kg) — escenario</h3><div class="chart-box"><canvas id="profit"></canvas></div></div>
+  <p class="note">Escenario ilustrativo con cifras de ejemplo. Se calibra con los costos e ingresos reales del rancho en el piloto.</p>
+
+  <div class="footer">
+    <span>Auri · auri.farm — Panel para Agrosuar / El Cardonal</span>
+    <span>Riego = datos reales Priva 2024–2026 · Producción/economía = estimado a calibrar</span>
+  </div>
+</div>
+
+<script>
+Chart.defaults.color = '#9fb3a3';
+Chart.defaults.font.family = 'Segoe UI, system-ui, Arial';
+Chart.defaults.borderColor = '#25352b';
+const G='#3f8241', M='#97BC62', BL='#4f9bd6', PU='#a882d6', GD='#e0b64a', RD='#d9705a';
+
+/* ===== DATOS REALES PRIVA ===== */
+// Consumo canal 1 por trimestre (m3) - Water Report
+new Chart(rConsQ,{type:'bar',data:{labels:['Q1','Q2','Q3','Q4'],datasets:[
+  {label:'2024',data:[90.556,43.626,53.083,83.379],backgroundColor:'rgba(116,138,122,.7)',borderRadius:5},
+  {label:'2025',data:[80.894,33.641,93.534,99.953],backgroundColor:M,borderRadius:5},
+  {label:'2026',data:[105.030,72.314,84.581,null],backgroundColor:G,borderRadius:5}
+]},options:{plugins:{legend:{position:'bottom'}},scales:{y:{title:{display:true,text:'m³'}}}}});
+
+// Horas de bomba por año
+new Chart(rPump,{type:'bar',data:{labels:['2024','2025','2026 (ene–sep)'],datasets:[{label:'Horas ON pump 1',data:[1441.75,1398.87,1360.27],backgroundColor:[BL,BL,G],borderRadius:6}]},options:{plugins:{legend:{display:false}},scales:{y:{title:{display:true,text:'horas'}}}}});
+
+// Consumo por canal 2026
+new Chart(rCanales,{type:'bar',data:{labels:['Canal 1 (A)','Canal 2 (B)','Canal 3 (C)','Canal 4 (D)','Canal 5 (ácido)'],datasets:[{label:'m³ 2026',data:[261.925,268.082,268.082,263.518,222.381],backgroundColor:[G,G,G,G,GD],borderRadius:6}]},options:{indexAxis:'y',plugins:{legend:{display:false}},scales:{x:{title:{display:true,text:'m³ acumulados 2026'}}}}});
+
+/* ===== ESTIMADO / PLACEHOLDER ===== */
+new Chart(harvest,{type:'bar',data:{labels:['Sem 1','Sem 2','Sem 3','Sem 4','Sem 5','Sem 6'],datasets:[{label:'Fresa',data:[3200,4100,4800,5200,4900,4600],backgroundColor:G,borderRadius:5},{label:'Arándano',data:[1400,1800,2100,2400,2300,2200],backgroundColor:M,borderRadius:5}]},options:{plugins:{legend:{position:'bottom'}},scales:{x:{stacked:true},y:{stacked:true,ticks:{callback:v=>(v/1000)+'t'}}}}});
+
+new Chart(yieldNave,{type:'bar',data:{labels:['Nave 1','Nave 2','Nave 3','Nave 4','Nave 5'],datasets:[{data:[2.1,1.95,1.6,2.05,1.9],backgroundColor:['#3f8241','#3f8241','#d9705a','#3f8241','#3f8241'],borderRadius:6}]},options:{plugins:{legend:{display:false},tooltip:{callbacks:{afterLabel:c=>c.label==='Nave 3'?'Bajo rendimiento — revisar':''}}},scales:{y:{title:{display:true,text:'kg/planta'}}}}});
+
+new Chart(climate,{data:{labels:['L','M','X','J','V','S','D'],datasets:[{type:'line',label:'Temp máx (°C)',data:[31,33,34,32,30,29,31],borderColor:RD,backgroundColor:'transparent',tension:.3,yAxisID:'y',pointRadius:4},{type:'line',label:'Temp mín (°C)',data:[14,15,16,15,13,12,14],borderColor:GD,backgroundColor:'transparent',tension:.3,yAxisID:'y',pointRadius:4},{type:'line',label:'Humedad (%)',data:[68,62,58,64,72,75,70],borderColor:BL,backgroundColor:'rgba(79,155,214,.08)',fill:true,tension:.3,yAxisID:'y1',pointRadius:4}]},options:{plugins:{legend:{position:'bottom'}},scales:{y:{position:'left',title:{display:true,text:'°C'}},y1:{position:'right',title:{display:true,text:'% HR'},grid:{drawOnChartArea:false}}}}});
+
+new Chart(profit,{type:'bar',data:{labels:['$70/kg','$85/kg','$100/kg','$115/kg'],datasets:[{data:[548000,1124000,1700000,2276000],backgroundColor:[GD,M,G,G],borderRadius:6}]},options:{plugins:{legend:{display:false}},scales:{y:{ticks:{callback:v=>'$'+(v/1000000).toFixed(1)+'M'}}}}});
+</script>
+</body>
+</html>
