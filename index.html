@@ -108,6 +108,36 @@
   .note{font-size:11.5px;color:var(--muted2);font-style:italic;margin-top:10px}
   .footer{margin-top:36px;padding-top:18px;border-top:1px solid var(--line);font-size:11.5px;color:var(--muted2);display:flex;justify-content:space-between;flex-wrap:wrap;gap:8px}
   @media(max-width:860px){.grid2,.grid3{grid-template-columns:1fr}}
+  /* Versión B estilo Agrosuar - solo dentro de #tab-calendar.vb */
+  #tab-calendar.vb{background:#ffffff;margin:-26px -22px 0;padding:26px 22px;border-radius:0}
+  #tab-calendar.vb h2.sec{color:#2f6b34}
+  #tab-calendar.vb .vb-var{background:#f5faf2;border:1px solid #dcebd3;border-radius:14px;padding:16px}
+  #tab-calendar.vb .vb-title{text-align:center;font-size:17px;font-weight:800;color:#2f6b34;letter-spacing:1px;margin-bottom:4px}
+  #tab-calendar.vb .vb-sub{text-align:center;font-size:11px;color:#6b8a6f;margin-bottom:14px}
+  .vb-grid{display:grid;grid-template-columns:200px 1fr;gap:20px;align-items:center}
+  .vb-rows{display:flex;flex-direction:column;gap:12px}
+  .vb-row{display:grid;grid-template-columns:1fr auto 1fr 90px;align-items:center;gap:14px;background:#fff;border:1px solid #e3efdc;border-radius:12px;padding:10px 16px}
+  .vb-row .lbl{grid-column:1 / -1;text-align:center;font-size:12px;color:#5a7a5f;font-weight:700;margin-bottom:-4px;text-transform:uppercase;letter-spacing:.5px}
+  .vb-ppto,.vb-real{text-align:center}
+  .vb-ppto .n,.vb-real .n{font-size:20px;font-weight:800;color:#1e2b1f}
+  .vb-ppto .t,.vb-real .t{font-size:10px;font-weight:700;letter-spacing:1px}
+  .vb-ppto .t{color:#3f8241}.vb-real .t{color:#8bbf6e}
+  .vb-vs{font-size:12px;color:#9ab09d;font-weight:700}
+  .vb-chip{display:flex;align-items:center;gap:6px;justify-content:center;font-size:12px;font-weight:800;border-radius:20px;padding:5px 8px}
+  .vb-chip.down{background:#fdeaea;color:#d14343}
+  .vb-chip.up{background:#e8f6e8;color:#2f9e3f}
+  .vb-price{display:flex;align-items:center;justify-content:center;gap:18px;margin-top:4px}
+  .vb-circle{width:96px;height:96px;border-radius:50%;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#fff;font-weight:800}
+  .vb-circle .big{font-size:20px}.vb-circle .u{font-size:11px;font-weight:600}
+  .vb-circle.ppto{background:#2f9e3f}
+  .vb-circle.real{background:#eaf6e6;color:#2f6b34;border:3px solid #e0943a}
+  .vb-cap{text-align:center;font-size:11px;color:#6b8a6f;margin-top:6px}
+  #tab-calendar.vb .card{background:#fff;border:1px solid #e3efdc}
+  #tab-calendar.vb .card h3{color:#5a7a5f}
+  #tab-calendar.vb table th{color:#5a7a5f;border-bottom-color:#e3efdc}
+  #tab-calendar.vb table td{border-bottom-color:#eef5ea;color:#2a3a2b}
+  #tab-calendar.vb .pos{color:#2f9e3f}
+  #tab-calendar.vb .vb-badge{display:inline-block;background:#e8f6e8;color:#2f9e3f;border:1px solid #bfe3bf;font-size:10px;font-weight:700;padding:2px 10px;border-radius:20px;letter-spacing:.5px}
 </style>
 </head>
 <body>
@@ -187,38 +217,88 @@
   </section>
 
   <!-- ============ TAB: CALENDARIZACIÓN ============ -->
-  <section class="panel-page" id="tab-calendar">
-    <div class="kpis">
-      <div class="kpi hl"><div class="k">Volumen cosechado (ciclo)</div><div class="v">122.6 <small>ton</small></div><div class="d">arándano · real acumulado</div></div>
-      <div class="kpi"><div class="k">Avance vs. presupuesto</div><div class="v">86.9 <small>%</small></div><div class="d">141 ton presupuestadas</div></div>
-      <div class="kpi"><div class="k">Variedades</div><div class="v">3</div><div class="d">Biloxi · Imperial · Madeira</div></div>
-      <div class="kpi hl"><div class="k">Precio real vs. presupuesto</div><div class="v pos">+26% <small>Biloxi</small></div><div class="d">$8.15 real vs $6.49 ppto (USD/kg)</div></div>
+  <section class="panel-page vb" id="tab-calendar">
+    <div class="vb-title">🫐 REPORTE DE BERRIES — SEMANA 23</div>
+    <div class="vb-sub">Rancho El Cardonal · Reporte acumulado semana 47 a 23 · <span class="vb-badge">EN VIVO · Auri</span></div>
+
+    <h2 class="sec" style="margin-top:10px">BILOXI <span style="font-size:11px;color:#6b8a6f;font-weight:500">· Rend/planta 2.8 kg · Precio ppto $6.49</span></h2>
+    <div class="vb-var">
+      <div class="vb-grid">
+        <div style="text-align:center">
+          <div class="chart-box" style="height:150px"><canvas id="vbDonaBiloxi"></canvas></div>
+          <div style="font-size:22px;font-weight:800;color:#2f6b34;margin-top:4px">87.9%</div>
+          <div style="font-size:11px;color:#6b8a6f">% Avance</div>
+        </div>
+        <div class="vb-rows">
+          <div class="vb-row">
+            <div class="lbl">Volumen total</div>
+            <div class="vb-ppto"><div class="n">120,680 kg</div><div class="t">PPTO</div></div>
+            <div class="vb-vs">›</div>
+            <div class="vb-real"><div class="n">106,028 kg</div><div class="t">REAL</div></div>
+            <div class="vb-chip down">▼ 14,652 kg</div>
+          </div>
+          <div class="vb-row">
+            <div class="lbl">Cosecha</div>
+            <div class="vb-ppto"><div class="n">116,038 kg</div><div class="t">PPTO</div></div>
+            <div class="vb-vs">›</div>
+            <div class="vb-real"><div class="n">101,926 kg</div><div class="t">REAL</div></div>
+            <div class="vb-chip down">▼ 14,112 kg</div>
+          </div>
+          <div class="vb-row">
+            <div class="lbl">Empaque exportación</div>
+            <div class="vb-ppto"><div class="n">4%</div><div class="t">PPTO</div></div>
+            <div class="vb-vs">›</div>
+            <div class="vb-real"><div class="n">3.86%</div><div class="t">REAL</div></div>
+            <div class="vb-chip down">▼ 0.14%</div>
+          </div>
+        </div>
+      </div>
+      <div class="vb-price">
+        <div class="vb-circle ppto"><div class="big">$6.49</div><div class="u">usd · PPTO</div></div>
+        <div class="vb-vs">VS</div>
+        <div class="vb-circle real"><div class="big">$8.15</div><div class="u">usd · 25-26</div></div>
+        <div class="vb-chip up">▲ 1.59</div>
+      </div>
+      <div class="vb-cap">Precio promedio acumulado — <b style="color:#2f9e3f">se vendió más caro de lo presupuestado</b></div>
     </div>
 
-    <h2 class="sec"><span class="dot"></span>Cosecha por variedad — presupuesto vs. real <span class="tag real">DATOS REALES</span></h2>
-    <div class="grid2">
-      <div class="card"><h3>Volumen cosechado (kg): presupuesto vs. real</h3><div class="chart-box"><canvas id="calVol"></canvas></div></div>
-      <div class="card"><h3>Precio promedio (USD/kg): presupuesto vs. real</h3><div class="chart-box"><canvas id="calPrecio"></canvas></div></div>
+    <div class="grid2" style="margin-top:16px">
+      <div class="vb-var">
+        <h2 class="sec" style="margin:0 0 10px">IMPERIAL <span style="font-size:11px;color:#6b8a6f;font-weight:500">· 88.9% avance</span></h2>
+        <div class="vb-rows">
+          <div class="vb-row"><div class="lbl">Volumen total</div><div class="vb-ppto"><div class="n">8,570</div><div class="t">PPTO</div></div><div class="vb-vs">›</div><div class="vb-real"><div class="n">7,623</div><div class="t">REAL</div></div><div class="vb-chip down">▼ 947</div></div>
+        </div>
+        <div class="vb-price" style="margin-top:12px">
+          <div class="vb-circle ppto" style="width:76px;height:76px"><div class="big" style="font-size:16px">$7.10</div><div class="u">PPTO</div></div>
+          <div class="vb-vs">VS</div>
+          <div class="vb-circle real" style="width:76px;height:76px"><div class="big" style="font-size:16px">$8.51</div><div class="u">25-26</div></div>
+          <div class="vb-chip up">▲ 1.20</div>
+        </div>
+      </div>
+      <div class="vb-var">
+        <h2 class="sec" style="margin:0 0 10px">MADEIRA <span style="font-size:11px;color:#6b8a6f;font-weight:500">· 75.7% avance</span></h2>
+        <div class="vb-rows">
+          <div class="vb-row"><div class="lbl">Volumen total</div><div class="vb-ppto"><div class="n">11,783</div><div class="t">PPTO</div></div><div class="vb-vs">›</div><div class="vb-real"><div class="n">8,921</div><div class="t">REAL</div></div><div class="vb-chip down">▼ 2,862</div></div>
+        </div>
+        <div class="vb-price" style="margin-top:12px">
+          <div class="vb-circle ppto" style="width:76px;height:76px"><div class="big" style="font-size:16px">$6.80</div><div class="u">PPTO</div></div>
+          <div class="vb-vs">VS</div>
+          <div class="vb-circle real" style="width:76px;height:76px"><div class="big" style="font-size:16px">$9.37</div><div class="u">25-26</div></div>
+          <div class="vb-chip up">▲ 2.57</div>
+        </div>
+      </div>
     </div>
 
     <div class="card" style="margin-top:16px">
-      <h3>Resumen por variedad</h3>
+      <h3>Totales del ciclo</h3>
       <table>
-        <tr><th>Variedad</th><th style="text-align:right">Presupuesto</th><th style="text-align:right">Real</th><th style="text-align:right">% Avance</th><th style="text-align:right">Rend/planta</th><th style="text-align:right">$ Ppto</th><th style="text-align:right">$ Real</th></tr>
-        <tr><td><b>Biloxi</b></td><td style="text-align:right">120,680 kg</td><td style="text-align:right">106,028 kg</td><td style="text-align:right" class="pos">87.9%</td><td style="text-align:right">2.8 kg</td><td style="text-align:right">$6.49</td><td style="text-align:right" class="pos">$8.15</td></tr>
-        <tr><td><b>Imperial</b></td><td style="text-align:right">8,570 kg</td><td style="text-align:right">7,623 kg</td><td style="text-align:right" class="pos">88.9%</td><td style="text-align:right">1.22 kg</td><td style="text-align:right">$7.10</td><td style="text-align:right" class="pos">$8.51</td></tr>
-        <tr><td><b>Madeira</b></td><td style="text-align:right">11,783 kg</td><td style="text-align:right">8,921 kg</td><td style="text-align:right" class="pos">75.7%</td><td style="text-align:right">0.90 kg</td><td style="text-align:right">$6.80</td><td style="text-align:right" class="pos">$9.37</td></tr>
-        <tr><td><b>Total</b></td><td style="text-align:right"><b>141,033 kg</b></td><td style="text-align:right"><b>122,572 kg</b></td><td style="text-align:right" class="pos"><b>86.9%</b></td><td style="text-align:right">—</td><td style="text-align:right">—</td><td style="text-align:right">—</td></tr>
+        <tr><th>Variedad</th><th style="text-align:right">Presupuesto</th><th style="text-align:right">Real</th><th style="text-align:right">% Avance</th><th style="text-align:right">Precio real</th></tr>
+        <tr><td><b>Biloxi</b></td><td style="text-align:right">120,680 kg</td><td style="text-align:right">106,028 kg</td><td style="text-align:right" class="pos">87.9%</td><td style="text-align:right" class="pos">$8.15</td></tr>
+        <tr><td><b>Imperial</b></td><td style="text-align:right">8,570 kg</td><td style="text-align:right">7,623 kg</td><td style="text-align:right" class="pos">88.9%</td><td style="text-align:right" class="pos">$8.51</td></tr>
+        <tr><td><b>Madeira</b></td><td style="text-align:right">11,783 kg</td><td style="text-align:right">8,921 kg</td><td style="text-align:right" class="pos">75.7%</td><td style="text-align:right" class="pos">$9.37</td></tr>
+        <tr><td><b>Total</b></td><td style="text-align:right"><b>141,033 kg</b></td><td style="text-align:right"><b>122,572 kg</b></td><td style="text-align:right" class="pos"><b>86.9%</b></td><td style="text-align:right">—</td></tr>
       </table>
-      <p class="note">Reporte de cierre de ciclo (semana 47 a 23). <b>En las 3 variedades el precio real de venta superó el presupuestado</b> — se vendió más caro de lo planeado. Merma dentro de rango (objetivo &lt;4%). Fuente: reporte semanal del rancho.</p>
-    </div>
-
-    <div class="findcard" style="margin-top:16px">
-      <h3>El valor de Auri aquí</h3>
-      <ul>
-        <li><b>Hoy:</b> este reporte le toma ~2 semanas a una persona generarlo. Para cuando está listo, el ciclo ya cerró — solo queda registrarlo.</li>
-        <li><b>Con Auri:</b> los cortes se registran por WhatsApp día a día y este tablero se actualiza <b>al momento</b> — decisiones a tiempo, no dos semanas tarde.</li>
-      </ul>
+      <p class="note" style="color:#6b8a6f">Mismo formato de su reporte semanal — ahora actualizado al momento vía WhatsApp, sin esperar 2 semanas.</p>
     </div>
   </section>
 
@@ -423,16 +503,8 @@ new Chart(rCanales,{type:'bar',data:{labels:['Canal 1 (A)','Canal 2 (B)','Canal 
 
 new Chart(climate,{data:{labels:['L','M','X','J','V','S','D'],datasets:[{type:'line',label:'Temp máx (°C)',data:[31,33,34,32,30,29,31],borderColor:RD,backgroundColor:'transparent',tension:.3,yAxisID:'y',pointRadius:4},{type:'line',label:'Temp mín (°C)',data:[14,15,16,15,13,12,14],borderColor:GD,backgroundColor:'transparent',tension:.3,yAxisID:'y',pointRadius:4},{type:'line',label:'Humedad (%)',data:[68,62,58,64,72,75,70],borderColor:BL,backgroundColor:'rgba(79,155,214,.08)',fill:true,tension:.3,yAxisID:'y1',pointRadius:4}]},options:{plugins:{legend:{position:'bottom'}},scales:{y:{position:'left',title:{display:true,text:'°C'}},y1:{position:'right',title:{display:true,text:'% HR'},grid:{drawOnChartArea:false}}}}});
 
-/* --- CALENDARIZACIÓN (DATOS REALES - reporte Semana 23 berries) --- */
-new Chart(calVol,{type:'bar',data:{labels:['Biloxi','Imperial','Madeira'],datasets:[
-  {label:'Presupuesto',data:[120680,8570,11783],backgroundColor:GY,borderRadius:5},
-  {label:'Real',data:[106028,7623,8921],backgroundColor:M,borderRadius:5}
-]},options:{plugins:{legend:{position:'bottom'}},scales:{y:{ticks:{callback:v=>(v/1000)+'t'}}}}});
-
-new Chart(calPrecio,{type:'bar',data:{labels:['Biloxi','Imperial','Madeira'],datasets:[
-  {label:'Presupuesto',data:[6.49,7.10,6.80],backgroundColor:GY,borderRadius:5},
-  {label:'Real',data:[8.15,8.51,9.37],backgroundColor:G,borderRadius:5}
-]},options:{plugins:{legend:{position:'bottom'}},scales:{y:{title:{display:true,text:'USD/kg'}}}}});
+/* --- CALENDARIZACIÓN VERSIÓN B (estilo Agrosuar) --- */
+new Chart(vbDonaBiloxi,{type:'doughnut',data:{labels:['Avance','Faltante'],datasets:[{data:[87.9,12.1],backgroundColor:['#2f9e3f','#d8d8d8'],borderWidth:0}]},options:{cutout:'72%',plugins:{legend:{display:false},tooltip:{enabled:false}}}});
 
 /* --- PLAGAS --- */
 new Chart(plCost,{data:{labels:['Jul','Ago','Sep'],datasets:[{type:'bar',label:'Costo sanidad',data:[41100,20000,14800],backgroundColor:G,borderRadius:6}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{y:{ticks:{callback:v=>'$'+(v/1000)+'k'}}}}});
