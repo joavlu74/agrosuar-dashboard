@@ -129,6 +129,7 @@
   <div class="wrap">
     <button class="tab active" data-tab="riego">💧 Riego</button>
     <button class="tab" data-tab="calendar">📅 Calendarización</button>
+    <button class="tab" data-tab="opex">💰 Opex y rentabilidad</button>
     <button class="tab" data-tab="plagas">🐛 Control de Plagas</button>
     <button class="tab" data-tab="whatsapp">💬 WhatsApp</button>
   </div>
@@ -363,6 +364,49 @@
     <p class="note">Cada grupo nutre una pestaña del panel: Operación → Calendarización/Riego · Insumos → costos · Plagas → Control de Plagas. Un solo lugar, en tiempo real.</p>
   </section>
 
+  <!-- ============ TAB: OPEX Y RENTABILIDAD ============ -->
+  <section class="panel-page" id="tab-opex">
+    <h2 class="sec"><span class="dot"></span>Opex y rentabilidad — Fresa (2.5 ha, meta 52 ton) <span class="tag est">EJEMPLO</span></h2>
+
+    <div class="kpis">
+      <div class="kpi"><div class="k">Opex mensual</div><div class="v">$425 <small>k MXN</small></div><div class="d">costo operativo por mes</div></div>
+      <div class="kpi"><div class="k">Opex del ciclo (8 meses)</div><div class="v">$3.4 <small>M MXN</small></div><div class="d">costo total operativo</div></div>
+      <div class="kpi"><div class="k">Costo por kg (a meta)</div><div class="v">$65 <small>/kg</small></div><div class="d">vs. precio venta $92/kg</div></div>
+      <div class="kpi hl"><div class="k">Punto de equilibrio</div><div class="v">37 <small>ton</small></div><div class="d">71% de la meta — arriba de eso, ganancia</div></div>
+      <div class="kpi"><div class="k">Utilidad proyectada</div><div class="v pos">$1.38 <small>M</small></div><div class="d">si llega a meta · 29% margen</div></div>
+    </div>
+
+    <h2 class="sec"><span class="dot"></span>Desglose del costo operativo (Opex)</h2>
+    <div class="grid2">
+      <div class="card"><h3>Opex por categoría (mensual)</h3><div class="chart-box"><canvas id="opexCat"></canvas></div></div>
+      <div class="card">
+        <h3>Detalle mensual</h3>
+        <table>
+          <tr><th>Categoría</th><th style="text-align:right">MXN / mes</th><th style="text-align:right">%</th></tr>
+          <tr><td><span class="pill sueldos">Mano de obra</span></td><td style="text-align:right">185,000</td><td style="text-align:right">44%</td></tr>
+          <tr><td><span class="pill insumos">Insumos / nutrición</span></td><td style="text-align:right">96,000</td><td style="text-align:right">23%</td></tr>
+          <tr><td><span class="pill energia">Energía eléctrica</span></td><td style="text-align:right">58,000</td><td style="text-align:right">14%</td></tr>
+          <tr><td><span class="pill sanidad">Sanidad</span></td><td style="text-align:right">32,000</td><td style="text-align:right">8%</td></tr>
+          <tr><td><span class="pill insumos">Sustrato / material</span></td><td style="text-align:right">24,000</td><td style="text-align:right">6%</td></tr>
+          <tr><td>Otros (agua, admin, mant.)</td><td style="text-align:right">30,000</td><td style="text-align:right">7%</td></tr>
+          <tr><td><b>Total mensual</b></td><td style="text-align:right"><b>425,000</b></td><td style="text-align:right"><b>100%</b></td></tr>
+        </table>
+      </div>
+    </div>
+
+    <h2 class="sec"><span class="dot"></span>Punto de equilibrio</h2>
+    <div class="card"><h3>Ingreso vs. costo según producción (ton) — ¿cuándo empiezo a ganar?</h3><div class="chart-box tall"><canvas id="breakeven"></canvas></div>
+      <p class="note">El punto de equilibrio es donde el ingreso cubre el costo total del ciclo ($3.4M). Ocurre a las <b>37 ton (71% de la meta)</b>. Cada tonelada por encima es utilidad. A meta (52 ton): utilidad de ~$1.38M.</p>
+    </div>
+
+    <div class="grid3" style="margin-top:16px">
+      <div class="card" style="text-align:center"><h3>Para NO perder</h3><div class="big" style="font-size:26px;font-weight:800;color:var(--gold)">37 ton</div><p class="note" style="font-style:normal">cubre todos los costos</p></div>
+      <div class="card" style="text-align:center"><h3>Meta de producción</h3><div class="big" style="font-size:26px;font-weight:800;color:var(--moss2)">52 ton</div><p class="note" style="font-style:normal">+15 ton sobre el equilibrio</p></div>
+      <div class="card" style="text-align:center"><h3>Utilidad a meta</h3><div class="big" style="font-size:26px;font-weight:800;color:var(--moss2)">$1.38 M</div><p class="note" style="font-style:normal">29% de margen</p></div>
+    </div>
+    <p class="note">Cifras de ejemplo para un cultivo. En el piloto, Auri alimenta estos costos desde el grupo de WhatsApp de Insumos y nómina, y recalcula el punto de equilibrio en vivo conforme avanza la cosecha real.</p>
+  </section>
+
   <div class="footer">
     <span>Auri · auri.farm — Panel para Agrosuar / El Cardonal</span>
     <span>Riego = datos reales Priva 2024–2026 · Resto = ejemplo a calibrar en el piloto</span>
@@ -418,6 +462,21 @@ new Chart(calArandano,{type:'bar',data:{labels:semL,datasets:[
 new Chart(plCost,{data:{labels:['Jul','Ago','Sep'],datasets:[{type:'bar',label:'Costo sanidad',data:[41100,20000,14800],backgroundColor:G,borderRadius:6}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{y:{ticks:{callback:v=>'$'+(v/1000)+'k'}}}}});
 
 new Chart(plTipo,{type:'doughnut',data:{labels:['Insecticida','Fungicida','Acaricida','Biológico'],datasets:[{data:[2,2,1,1],backgroundColor:[RD,BL,PU,M],borderColor:'#16211a',borderWidth:3}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{position:'bottom'}},cutout:'60%'}});
+
+/* --- OPEX Y RENTABILIDAD (ejemplo) --- */
+new Chart(opexCat,{type:'doughnut',data:{labels:['Mano de obra','Insumos','Energía','Sanidad','Sustrato','Otros'],datasets:[{data:[185000,96000,58000,32000,24000,30000],backgroundColor:[G,GD,BL,PU,M,'#748a7a'],borderColor:'#16211a',borderWidth:3}]},options:{plugins:{legend:{position:'right'}},cutout:'58%'}});
+
+// Punto de equilibrio: ingreso vs costo total segun toneladas producidas
+(function(){
+  const precio=92, costoTotal=3400000, meta=52;
+  const tons=[0,10,20,30,37,40,50,52,60];
+  const ingreso=tons.map(t=>t*1000*precio);
+  const costo=tons.map(()=>costoTotal);
+  new Chart(breakeven,{data:{labels:tons.map(t=>t+'t'),datasets:[
+    {type:'line',label:'Ingreso',data:ingreso,borderColor:M,backgroundColor:'rgba(151,188,98,.1)',fill:false,tension:0,pointRadius:3,borderWidth:3},
+    {type:'line',label:'Costo total del ciclo',data:costo,borderColor:RD,borderDash:[6,4],fill:false,pointRadius:0,borderWidth:2}
+  ]},options:{plugins:{legend:{position:'bottom'},tooltip:{callbacks:{label:c=>c.dataset.label+': $'+(c.parsed.y/1000000).toFixed(2)+'M'}}},scales:{x:{title:{display:true,text:'Producción (toneladas)'}},y:{ticks:{callback:v=>'$'+(v/1000000).toFixed(1)+'M'},title:{display:true,text:'MXN'}}}}});
+})();
 </script>
 </body>
 </html>
