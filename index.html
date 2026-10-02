@@ -188,60 +188,37 @@
 
   <!-- ============ TAB: CALENDARIZACIÓN ============ -->
   <section class="panel-page" id="tab-calendar">
-    <h2 class="sec"><span class="dot"></span>Definición del cultivo <span class="tag est">EJEMPLO</span></h2>
-    <div class="grid3">
-      <div class="card">
-        <h3>Cultivo A</h3>
-        <table>
-          <tr><td>Cultivo</td><td class="pos">Fresa</td></tr>
-          <tr><td>Variedad</td><td>San Andreas</td></tr>
-          <tr><td>Sistema</td><td>Invernadero / sustrato</td></tr>
-          <tr><td>Área</td><td>2.5 ha</td></tr>
-          <tr><td>Plantas</td><td>175,000</td></tr>
-          <tr><td>Trasplante</td><td>15-ago-2026</td></tr>
-          <tr><td>Inicio cosecha</td><td>oct-2026</td></tr>
-          <tr><td><b>Volumen objetivo</b></td><td class="pos"><b>52 ton</b></td></tr>
-        </table>
-      </div>
-      <div class="card">
-        <h3>Cultivo B</h3>
-        <table>
-          <tr><td>Cultivo</td><td class="pos">Arándano</td></tr>
-          <tr><td>Variedad</td><td>Biloxi</td></tr>
-          <tr><td>Sistema</td><td>Invernadero / maceta</td></tr>
-          <tr><td>Área</td><td>1.8 ha</td></tr>
-          <tr><td>Plantas</td><td>14,400</td></tr>
-          <tr><td>Trasplante</td><td>establecido</td></tr>
-          <tr><td>Inicio cosecha</td><td>sep-2026</td></tr>
-          <tr><td><b>Volumen objetivo</b></td><td class="pos"><b>36 ton</b></td></tr>
-        </table>
-      </div>
-      <div class="card">
-        <h3>Comercialización</h3>
-        <table>
-          <tr><td>Comprador fresa</td><td>Driscoll's</td></tr>
-          <tr><td>Precio pactado</td><td class="pos">$92 / kg</td></tr>
-          <tr><td>Comprador arándano</td><td>Exportadora BV</td></tr>
-          <tr><td>Precio pactado</td><td class="pos">$135 / kg</td></tr>
-          <tr><td>Modalidad</td><td>Contrato / export</td></tr>
-          <tr><td><b>Ingreso objetivo</b></td><td class="pos"><b>$9.6 M</b></td></tr>
-        </table>
-      </div>
+    <div class="kpis">
+      <div class="kpi hl"><div class="k">Volumen cosechado (ciclo)</div><div class="v">122.6 <small>ton</small></div><div class="d">arándano · real acumulado</div></div>
+      <div class="kpi"><div class="k">Avance vs. presupuesto</div><div class="v">86.9 <small>%</small></div><div class="d">141 ton presupuestadas</div></div>
+      <div class="kpi"><div class="k">Variedades</div><div class="v">3</div><div class="d">Biloxi · Imperial · Madeira</div></div>
+      <div class="kpi hl"><div class="k">Precio real vs. presupuesto</div><div class="v pos">+26% <small>Biloxi</small></div><div class="d">$8.15 real vs $6.49 ppto (USD/kg)</div></div>
     </div>
 
-    <h2 class="sec"><span class="dot"></span>Objetivo vs. real de cosecha <span class="tag est">EJEMPLO · se llena en campo</span></h2>
+    <h2 class="sec"><span class="dot"></span>Cosecha por variedad — presupuesto vs. real <span class="tag real">DATOS REALES</span></h2>
     <div class="grid2">
-      <div class="card"><h3>Fresa — producción semanal (kg): objetivo vs. real</h3><div class="chart-box"><canvas id="calFresa"></canvas></div></div>
-      <div class="card"><h3>Arándano — producción semanal (kg): objetivo vs. real</h3><div class="chart-box"><canvas id="calArandano"></canvas></div></div>
+      <div class="card"><h3>Volumen cosechado (kg): presupuesto vs. real</h3><div class="chart-box"><canvas id="calVol"></canvas></div></div>
+      <div class="card"><h3>Precio promedio (USD/kg): presupuesto vs. real</h3><div class="chart-box"><canvas id="calPrecio"></canvas></div></div>
     </div>
+
     <div class="card" style="margin-top:16px">
-      <h3>Avance acumulado vs. meta</h3>
+      <h3>Resumen por variedad</h3>
       <table>
-        <tr><th>Cultivo</th><th>Meta ciclo</th><th>Real acumulado</th><th>Avance</th><th>Precio</th><th>Ingreso real</th></tr>
-        <tr><td>Fresa</td><td>52,000 kg</td><td>11,240 kg</td><td class="pos">21.6%</td><td>$92/kg</td><td>$1,034,080</td></tr>
-        <tr><td>Arándano</td><td>36,000 kg</td><td>9,850 kg</td><td class="pos">27.4%</td><td>$135/kg</td><td>$1,329,750</td></tr>
+        <tr><th>Variedad</th><th style="text-align:right">Presupuesto</th><th style="text-align:right">Real</th><th style="text-align:right">% Avance</th><th style="text-align:right">Rend/planta</th><th style="text-align:right">$ Ppto</th><th style="text-align:right">$ Real</th></tr>
+        <tr><td><b>Biloxi</b></td><td style="text-align:right">120,680 kg</td><td style="text-align:right">106,028 kg</td><td style="text-align:right" class="pos">87.9%</td><td style="text-align:right">2.8 kg</td><td style="text-align:right">$6.49</td><td style="text-align:right" class="pos">$8.15</td></tr>
+        <tr><td><b>Imperial</b></td><td style="text-align:right">8,570 kg</td><td style="text-align:right">7,623 kg</td><td style="text-align:right" class="pos">88.9%</td><td style="text-align:right">1.22 kg</td><td style="text-align:right">$7.10</td><td style="text-align:right" class="pos">$8.51</td></tr>
+        <tr><td><b>Madeira</b></td><td style="text-align:right">11,783 kg</td><td style="text-align:right">8,921 kg</td><td style="text-align:right" class="pos">75.7%</td><td style="text-align:right">0.90 kg</td><td style="text-align:right">$6.80</td><td style="text-align:right" class="pos">$9.37</td></tr>
+        <tr><td><b>Total</b></td><td style="text-align:right"><b>141,033 kg</b></td><td style="text-align:right"><b>122,572 kg</b></td><td style="text-align:right" class="pos"><b>86.9%</b></td><td style="text-align:right">—</td><td style="text-align:right">—</td><td style="text-align:right">—</td></tr>
       </table>
-      <p class="note">Cifras de ejemplo. En el piloto, la columna "real" se alimenta de los cortes registrados por nave (vía WhatsApp / báscula) y contrasta en vivo contra la meta.</p>
+      <p class="note">Reporte de cierre de ciclo (semana 47 a 23). <b>En las 3 variedades el precio real de venta superó el presupuestado</b> — se vendió más caro de lo planeado. Merma dentro de rango (objetivo &lt;4%). Fuente: reporte semanal del rancho.</p>
+    </div>
+
+    <div class="findcard" style="margin-top:16px">
+      <h3>El valor de Auri aquí</h3>
+      <ul>
+        <li><b>Hoy:</b> este reporte le toma ~2 semanas a una persona generarlo. Para cuando está listo, el ciclo ya cerró — solo queda registrarlo.</li>
+        <li><b>Con Auri:</b> los cortes se registran por WhatsApp día a día y este tablero se actualiza <b>al momento</b> — decisiones a tiempo, no dos semanas tarde.</li>
+      </ul>
     </div>
   </section>
 
@@ -446,17 +423,16 @@ new Chart(rCanales,{type:'bar',data:{labels:['Canal 1 (A)','Canal 2 (B)','Canal 
 
 new Chart(climate,{data:{labels:['L','M','X','J','V','S','D'],datasets:[{type:'line',label:'Temp máx (°C)',data:[31,33,34,32,30,29,31],borderColor:RD,backgroundColor:'transparent',tension:.3,yAxisID:'y',pointRadius:4},{type:'line',label:'Temp mín (°C)',data:[14,15,16,15,13,12,14],borderColor:GD,backgroundColor:'transparent',tension:.3,yAxisID:'y',pointRadius:4},{type:'line',label:'Humedad (%)',data:[68,62,58,64,72,75,70],borderColor:BL,backgroundColor:'rgba(79,155,214,.08)',fill:true,tension:.3,yAxisID:'y1',pointRadius:4}]},options:{plugins:{legend:{position:'bottom'}},scales:{y:{position:'left',title:{display:true,text:'°C'}},y1:{position:'right',title:{display:true,text:'% HR'},grid:{drawOnChartArea:false}}}}});
 
-/* --- CALENDARIZACIÓN (ejemplo: objetivo vs real) --- */
-const semL=['Sem 1','Sem 2','Sem 3','Sem 4','Sem 5','Sem 6'];
-new Chart(calFresa,{type:'bar',data:{labels:semL,datasets:[
-  {label:'Objetivo',data:[3000,3800,4500,5000,5200,5200],backgroundColor:GY,borderRadius:5},
-  {label:'Real',data:[2600,3500,4200,null,null,null],backgroundColor:G,borderRadius:5}
+/* --- CALENDARIZACIÓN (DATOS REALES - reporte Semana 23 berries) --- */
+new Chart(calVol,{type:'bar',data:{labels:['Biloxi','Imperial','Madeira'],datasets:[
+  {label:'Presupuesto',data:[120680,8570,11783],backgroundColor:GY,borderRadius:5},
+  {label:'Real',data:[106028,7623,8921],backgroundColor:M,borderRadius:5}
 ]},options:{plugins:{legend:{position:'bottom'}},scales:{y:{ticks:{callback:v=>(v/1000)+'t'}}}}});
 
-new Chart(calArandano,{type:'bar',data:{labels:semL,datasets:[
-  {label:'Objetivo',data:[1800,2200,2600,2900,3000,3000],backgroundColor:GY,borderRadius:5},
-  {label:'Real',data:[1950,2400,2700,null,null,null],backgroundColor:M,borderRadius:5}
-]},options:{plugins:{legend:{position:'bottom'}},scales:{y:{ticks:{callback:v=>(v/1000)+'t'}}}}});
+new Chart(calPrecio,{type:'bar',data:{labels:['Biloxi','Imperial','Madeira'],datasets:[
+  {label:'Presupuesto',data:[6.49,7.10,6.80],backgroundColor:GY,borderRadius:5},
+  {label:'Real',data:[8.15,8.51,9.37],backgroundColor:G,borderRadius:5}
+]},options:{plugins:{legend:{position:'bottom'}},scales:{y:{title:{display:true,text:'USD/kg'}}}}});
 
 /* --- PLAGAS --- */
 new Chart(plCost,{data:{labels:['Jul','Ago','Sep'],datasets:[{type:'bar',label:'Costo sanidad',data:[41100,20000,14800],backgroundColor:G,borderRadius:6}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{y:{ticks:{callback:v=>'$'+(v/1000)+'k'}}}}});
