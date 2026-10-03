@@ -160,6 +160,7 @@
     <button class="tab active" data-tab="riego">💧 Riego</button>
     <button class="tab" data-tab="calendar">📅 Calendarización</button>
     <button class="tab" data-tab="opex">💰 Opex y rentabilidad</button>
+    <button class="tab" data-tab="mercado">📈 Mercado</button>
     <button class="tab" data-tab="plagas">🐛 Control de Plagas</button>
     <button class="tab" data-tab="whatsapp">💬 WhatsApp</button>
   </div>
@@ -464,6 +465,35 @@
     <p class="note">Cifras de ejemplo para un cultivo. En el piloto, Auri alimenta estos costos desde el grupo de WhatsApp de Insumos y nómina, y recalcula el punto de equilibrio en vivo conforme avanza la cosecha real.</p>
   </section>
 
+  <!-- ============ TAB: MERCADO ============ -->
+  <section class="panel-page" id="tab-mercado">
+    <h2 class="sec"><span class="dot"></span>Precio de mercado — arándano de exportación <span class="tag est">REFERENCIA ESTIMADA</span></h2>
+    <div class="findcard" style="border-color:#5a4420;background:linear-gradient(135deg,#33261a,#16211a)">
+      <h3 style="color:var(--gold)">⚠️ Nota importante</h3>
+      <p style="font-size:13px;color:var(--ink);margin-top:4px">Los precios de compra de Driscoll's a productor <b>no son públicos</b> (contrato privado). Lo que se muestra abajo es <b>referencia de mercado estimada</b> para arándano mexicano de exportación, según estacionalidad. <b>No son precios oficiales de Driscoll's.</b> El dato duro son las liquidaciones reales del propio rancho (abajo, en verde).</p>
+    </div>
+
+    <h2 class="sec"><span class="dot"></span>Estacionalidad de precio (USD/kg)</h2>
+    <div class="card"><h3>Rango de mercado por mes · vs. precio real del rancho</h3><div class="chart-box tall"><canvas id="mktSeason"></canvas></div>
+      <p class="note">Banda = rango típico de mercado (mín–máx estimado). Línea verde = precio real de las liquidaciones del rancho donde se tiene dato (Biloxi $8.15, Imperial $8.51, Madeira $9.37 este ciclo). Alto en invierno (poca oferta global), bajo en primavera (pico de Perú/EUA).</p>
+    </div>
+
+    <div class="grid3" style="margin-top:16px">
+      <div class="card" style="text-align:center"><h3>Ventana alta</h3><div class="big" style="font-size:24px;font-weight:800;color:var(--moss2)">$8–10</div><p class="note" style="font-style:normal">USD/kg · dic–feb · poca oferta global</p></div>
+      <div class="card" style="text-align:center"><h3>Ventana media</h3><div class="big" style="font-size:24px;font-weight:800;color:var(--gold)">$5–8</div><p class="note" style="font-style:normal">USD/kg · oct–nov / mar</p></div>
+      <div class="card" style="text-align:center"><h3>Ventana baja</h3><div class="big" style="font-size:24px;font-weight:800;color:var(--red)">$3–5</div><p class="note" style="font-style:normal">USD/kg · abr–jun · pico Perú/EUA</p></div>
+    </div>
+
+    <div class="findcard" style="margin-top:16px">
+      <h3>El valor de Auri aquí</h3>
+      <ul>
+        <li><b>Construimos su histórico de precios REAL</b> con sus propias liquidaciones — serie confiable, no estimada.</li>
+        <li><b>La cruzamos con la estacionalidad de mercado</b> para anticipar las mejores ventanas de venta y planear la cosecha hacia los meses de mejor precio.</li>
+      </ul>
+    </div>
+    <p class="note">Rangos de referencia basados en el comportamiento estacional del arándano mexicano de exportación. Se calibran con datos reales conforme el rancho registra ventas en el piloto.</p>
+  </section>
+
   <div class="footer">
     <span>Auri · auri.farm — Panel para Agrosuar / El Cardonal</span>
     <span>Riego = datos reales Priva 2024–2026 · Resto = ejemplo a calibrar en el piloto</span>
@@ -505,6 +535,20 @@ new Chart(climate,{data:{labels:['L','M','X','J','V','S','D'],datasets:[{type:'l
 
 /* --- CALENDARIZACIÓN VERSIÓN B (estilo Agrosuar) --- */
 new Chart(vbDonaBiloxi,{type:'doughnut',data:{labels:['Avance','Faltante'],datasets:[{data:[87.9,12.1],backgroundColor:['#2f9e3f','#d8d8d8'],borderWidth:0}]},options:{cutout:'72%',plugins:{legend:{display:false},tooltip:{enabled:false}}}});
+
+/* --- MERCADO: estacionalidad de precio (referencia estimada) + real del rancho --- */
+(function(){
+  const meses=['Jul','Ago','Sep','Oct','Nov','Dic','Ene','Feb','Mar','Abr','May','Jun'];
+  const mktMin=[5,5,5.5,6,7,8,8.5,8,6.5,4,3,3];
+  const mktMax=[7,7,7.5,8,9,10,10,9.5,8,6,5,4.5];
+  // precios reales del rancho (liquidaciones ciclo), ubicados en meses de cierre (sem 22-23 ~ fin de ciclo)
+  const realRanch=[null,null,null,null,null,null,null,null,null,null,8.34,null]; // promedio ponderado ~ventana de cierre
+  new Chart(mktSeason,{data:{labels:meses,datasets:[
+    {type:'line',label:'Máx mercado (est.)',data:mktMax,borderColor:'rgba(151,188,98,.5)',backgroundColor:'rgba(151,188,98,.15)',fill:'+1',tension:.35,pointRadius:0,borderWidth:1.5},
+    {type:'line',label:'Mín mercado (est.)',data:mktMin,borderColor:'rgba(224,182,74,.5)',backgroundColor:'transparent',fill:false,tension:.35,pointRadius:0,borderWidth:1.5},
+    {type:'line',label:'Precio real del rancho',data:realRanch,borderColor:G,backgroundColor:G,pointRadius:7,pointStyle:'rectRot',showLine:false}
+  ]},options:{plugins:{legend:{position:'bottom'},tooltip:{callbacks:{label:c=>c.dataset.label+': $'+c.parsed.y+'/kg'}}},scales:{y:{title:{display:true,text:'USD/kg'},suggestedMin:2,suggestedMax:11},x:{title:{display:true,text:'Mes (ciclo de producción)'}}}}});
+})();
 
 /* --- PLAGAS --- */
 new Chart(plCost,{data:{labels:['Jul','Ago','Sep'],datasets:[{type:'bar',label:'Costo sanidad',data:[41100,20000,14800],backgroundColor:G,borderRadius:6}]},options:{responsive:true,maintainAspectRatio:false,plugins:{legend:{display:false}},scales:{y:{ticks:{callback:v=>'$'+(v/1000)+'k'}}}}});
